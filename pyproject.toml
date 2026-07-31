@@ -1,0 +1,9 @@
+[project]
+name = "surepet-telemetry-dashboard"
+version = "0.1.0"
+description = "A reference pipeline for pulling, normalizing, and publishing Sure Pet telemetry."
+requires-python = ">=3.9"
+dependencies = ["requests>=2.31"]
+
+[project.scripts]
+surepet-telemetry = "surepet_telemetry:main"

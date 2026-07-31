@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#060707" />
+    <meta name="description" content="A mobile-first dashboard for Sure Pet feeding telemetry." />
+    <title>Sure Pet Feeding Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="dashboard" aria-labelledby="page-title">
+      <header class="masthead">
+        <div class="title-block">
+          <p class="eyebrow">Sure Pet · Feeding telemetry</p>
+          <h1 id="page-title">Cat feeding</h1>
+          <p class="retrieval"><span>Last data retrieval</span><strong id="retrieved-at">—</strong></p>
+        </div>
+        <div class="status" id="freshness" role="status">
+          <span class="status-dot"></span>
+          <span>Loading feed data…</span>
+        </div>
+      </header>
+
+      <section class="latest-grid" id="latest-grid" aria-label="Latest meals"></section>
+
+      <section class="panel" aria-labelledby="pace-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Today’s pace</p>
+            <h2 id="pace-title">Cumulative consumption</h2>
+          </div>
+          <p class="section-note">Today vs prior 3 days</p>
+        </div>
+        <div class="chart-pair" id="pace-charts"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="totals-title">
+        <div class="section-heading compact">
+          <div>
+            <p class="section-kicker">Today’s total</p>
+            <h2 id="totals-title">Food consumed</h2>
+          </div>
+          <p class="date-label" id="today-label"></p>
+        </div>
+        <div class="total-bars" id="total-bars"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="feeds-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Today’s feeds</p>
+            <h2 id="feeds-title">Today vs prior 3 days</h2>
+            <p class="section-subdetail">Larger = today</p>
+          </div>
+        </div>
+        <canvas class="feeds-chart" id="feed-dots" role="img" aria-label="Feeding events by pet and time"></canvas>
+      </section>
+
+      <section class="panel" aria-labelledby="detail-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Rolling 7-day detail</p>
+            <h2 id="detail-title">Daily consumption</h2>
+            <p class="section-subdetail">AVG excludes today</p>
+          </div>
+        </div>
+        <div class="detail-stack" id="detail-charts"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="weekly-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">6-week history</p>
+            <h2 id="weekly-title">Daily average by week</h2>
+            <p class="section-subdetail">Completed weeks only</p>
+          </div>
+        </div>
+        <div class="weekly-stack" id="weekly-charts"></div>
+      </section>
+    </main>
+    <script type="module" src="app.mjs"></script>
+  </body>
+</html>
