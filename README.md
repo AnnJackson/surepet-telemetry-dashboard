@@ -1,4 +1,4 @@
-# Sure Pet Telemetry Dashboard
+# Sure Pet Telemetry Dashboard 🐈‍⬛
 
 A local-first reference pipeline for Sure Pet telemetry: pull device reports,
 write portable CSV, normalize them into categorized JSON, and optionally publish
