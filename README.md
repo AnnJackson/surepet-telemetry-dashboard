@@ -4,6 +4,11 @@ A local-first reference pipeline for Sure Pet telemetry: pull device reports,
 write portable CSV, normalize them into categorized JSON, and optionally publish
 that JSON to a dashboard endpoint.
 
+## Live dashboard
+
+The live version of this dashboard is available at
+[lab.jacksontwo.com/cat-feeding](https://lab.jacksontwo.com/cat-feeding/).
+
 This project deliberately separates event concepts:
 
 - **feeding** — food changes associated with a pet
@@ -11,12 +16,30 @@ This project deliberately separates event concepts:
 - **access** — pet-flap passage events
 - **ambient** — observed changes that cannot be reliably attributed to a pet
 
-The included `data/demo_events.csv` and `data/demo_telemetry.json` are a public
-six-week Pascal/Joule sample ending July 30, 2026. It retains the real event
-timing, food-change magnitudes, and Context values for those cats, while
-replacing source IDs, device IDs, device names, and API endpoints with public
-labels. The three water examples are explicitly synthetic because the selected
-period contains no water telemetry.
+The included [`data/demo_events.csv`](data/demo_events.csv) and
+[`data/demo_telemetry.json`](data/demo_telemetry.json) are a public six-week
+Pascal/Joule sample ending July 30, 2026. It retains the real event timing,
+food-change magnitudes, and Context values for those cats, while replacing
+source IDs, device IDs, device names, and API endpoints with public labels.
+The three water examples are explicitly synthetic because the selected period
+contains no water telemetry.
+
+> **Inspect the underlying data:**
+> [`data/demo_events.csv`](data/demo_events.csv) is the source-oriented CSV
+> behind the demo. It is the most direct way to inspect individual events,
+> their numeric Context values, and the corresponding attribution labels.
+
+## Project map
+
+- [`surepet_telemetry.py`](surepet_telemetry.py) is the main pipeline: it
+  pulls reports from Sure Pet, saves a reviewable CSV, normalizes it into JSON,
+  and can optionally publish that JSON to a protected endpoint.
+- [`dashboard/`](dashboard/) is the static, mobile-first dashboard frontend.
+  Host this folder wherever you host a website and point it at a compatible
+  telemetry JSON file or reader endpoint.
+- [`scripts/build_public_demo.py`](scripts/build_public_demo.py) creates the
+  sanitized public demo files. It is a reference for preparing shareable sample
+  data, not a provider-specific hosting script.
 
 ## Local demo
 
@@ -88,9 +111,34 @@ python3 surepet_telemetry.py sync --start 2026-01-01
 By default, `sync` writes `data/surepet_events.local.csv` and
 `data/telemetry.local.json`. Both remain on the user’s computer and are
 ignored by Git. Supply `--csv` or `--json` to use a different local location.
-Add `--publish` only when you have configured a compatible endpoint. The
-upload token is sent in `X-Telemetry-Token`; it is never stored by this
-project.
+## Publish to your own website
+
+The dashboard can remain entirely local: omit `--publish` and open the local
+JSON through a web server. To keep a separately hosted dashboard current, add
+these two optional values to the local `.env` file:
+
+- `TELEMETRY_INGEST_URL` — the URL of a protected server endpoint that accepts
+  the normalized telemetry JSON.
+- `TELEMETRY_INGEST_TOKEN` — a long, secret value shared only by the computer
+  doing the pull and that protected endpoint.
+
+Then run the normal pipeline with `--publish`:
+
+```bash
+python3 surepet_telemetry.py sync --start 2026-01-01 --publish
+```
+
+The URL tells the computer **where** to send the JSON. The token proves that
+the request is allowed to write there: the script sends it in the
+`X-Telemetry-Token` request header, and the server must independently compare
+it to its private copy before accepting and storing the snapshot. This is
+write authorization between the trusted computer and the hosting server; it
+does not authenticate viewers of the dashboard.
+
+Never put the token in the `dashboard/` files, a browser-visible configuration
+file, or Git. The dashboard can be public while the upload endpoint remains
+protected, because only the computer that pulls the Sure Pet API data has the
+secret needed to replace the hosted JSON.
 
 ## License
 
