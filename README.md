@@ -4,6 +4,20 @@ A local-first reference pipeline for Sure Pet telemetry: pull device reports,
 write portable CSV, normalize them into categorized JSON, and optionally publish
 that JSON to a dashboard endpoint.
 
+## A note from Ann
+
+Hi, my name is Ann! I created this project because I wanted to get more value
+from my Sure Pet devices. The existing analytics and data provided by the
+feeder manufacturer represented a good start, but I found myself asking more
+questions and looking for analytical views not available within their mobile
+app. To solve this, I developed a data-pull script using their undocumented
+API and then built my own mobile dashboard.
+
+I've found this extremely useful in monitoring the health and behavior of my
+two cats, Pascal and Joule. Please feel free to use this work and build on it.
+My hope is that it will allow all cat caregivers to gain more awareness into
+their cats and create better conversations and solutions around cat caretaking.
+
 ## Live dashboard
 
 The live version of this dashboard is available at
